@@ -1,0 +1,7 @@
+compile: gcc server2.c
+compile: gcc server2.c -o eserv
+execute: ./a.out 6765
+
+Client side: change the ip address in the client program to that of server
+compile: gcc client.c -o ecli
+execute: ./ecli 6765 
