@@ -1,0 +1,12 @@
+how to execute?
+
+From client: change the IP address to that of server's
+gcc client.c
+./a.out 8787
+
+From Server: change the IP address to that of using machine
+gcc server.c
+./a.out 8787
+
+execute the server first
+
