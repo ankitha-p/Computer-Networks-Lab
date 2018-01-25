@@ -1,0 +1,1946 @@
+<!doctype html>
+
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Code a network packet sniffer in python for Linux</title>
+<link rel="stylesheet" type="text/css" media="all" href="http://www.binarytides.com/blog/wp-content/themes/alltuts/style.css" />
+
+
+
+<!-- All in One SEO Pack 2.4.3 by Michael Torbert of Semper Fi Web Design[108,185] -->
+<meta name="description"  content="Basic Sniffer Sniffers are programs that can capture/sniff/detect network traffic packet by packet and analyse them for various reasons. Commonly used in the" />
+
+<link rel="canonical" href="http://www.binarytides.com/python-packet-sniffer-code-linux/" />
+<!-- /all in one seo pack -->
+<link rel='dns-prefetch' href='//www.binarytides.com' />
+<link rel="alternate" type="application/rss+xml" title="BinaryTides &raquo; Code a network packet sniffer in python for Linux Comments Feed" href="http://www.binarytides.com/python-packet-sniffer-code-linux/feed/" />
+<link rel='stylesheet' id='yarppWidgetCss-css'  href='http://www.binarytides.com/blog/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=4.9.2' type='text/css' media='all' />
+<link rel='stylesheet' id='digg-digg-css'  href='http://www.binarytides.com/blog/wp-content/plugins/digg-digg/css/diggdigg-style.css?ver=5.3.6' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/jquery-image-lazy-loading/js/jquery.lazyload.min.js?ver=1.7.1'></script>
+<link rel='https://api.w.org/' href='http://www.binarytides.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.binarytides.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.binarytides.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Php : create pdf from html using mpdf' href='http://www.binarytides.com/create-pdf-from-html-using-mpdf-in-php/' />
+<link rel='next' title='Packet Sniffer Code in C using Linux Sockets (BSD) &#8211; Part 2' href='http://www.binarytides.com/packet-sniffer-code-in-c-using-linux-sockets-bsd-part-2/' />
+<meta name="generator" content="WordPress 4.9.2" />
+<link rel='shortlink' href='http://www.binarytides.com/?p=1018' />
+<link rel="alternate" type="application/json+oembed" href="http://www.binarytides.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.binarytides.com%2Fpython-packet-sniffer-code-linux%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://www.binarytides.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.binarytides.com%2Fpython-packet-sniffer-code-linux%2F&#038;format=xml" />
+
+<!-- Schema.org markup for Google+ --> 
+<meta itemprop="name" content="Code a network packet sniffer in python for Linux"> 
+<meta itemprop="description" content="Last Updated On : 15th December 2012">
+
+
+<!-- Open Graph data -->
+<meta property="og:title" content="Code a network packet sniffer in python for Linux" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.binarytides.com/python-packet-sniffer-code-linux/" />
+<meta property="og:description" content="Last Updated On : 15th December 2012">
+<meta property="og:site_name" content="BinaryTides" />
+
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@binarytides">
+<meta name="twitter:creator" content="@binarytides">
+<meta name="twitter:title" content="Code a network packet sniffer in python for Linux">
+<meta name="twitter:description" content="Last Updated On : 15th December 2012">
+<meta name="twitter:creator" content="@binarytides">
+<!-- Twitter summary card with large image must be at least 280x150px -->
+
+	<meta name="google-site-verification" content="raSOdoQJjGURKn_sXYoe_n3Zqslc-LFFapomtBs69nY" />
+
+<!-- google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-2702' + '686-20', 'auto');
+
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Google Plus Publisher Markup -->
+<link href="https://plus.google.com/+binarytides" rel="publisher"/><style type='text/css'>
+img.lazy { display: none; }
+</style>
+<script type="text/javascript">
+	window._wp_rp_static_base_url = 'https://wprp.zemanta.com/static/';
+	window._wp_rp_wp_ajax_url = "http://www.binarytides.com/blog/wp-admin/admin-ajax.php";
+	window._wp_rp_plugin_version = '3.6.4';
+	window._wp_rp_post_id = '1018';
+	window._wp_rp_num_rel_posts = '6';
+	window._wp_rp_thumbnails = true;
+	window._wp_rp_post_title = 'Code+a+network+packet+sniffer+in+python+for+Linux';
+	window._wp_rp_post_tags = ['socket+programming', 'linux', 'python', 'python', 'network', 'raw', 'program', 'linux', 'portabl', 'secur', 'window', 'write', 'print', 'ubuntu', 'socket', 'traffic', 'python', 'code', 'librari'];
+	window._wp_rp_promoted_content = true;
+</script>
+<link rel="stylesheet" href="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/themes/modern.css?version=3.6.4" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css' />
+<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Bevan' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+
+<!-- Begin #wrapper -->
+<div id="wrapper">
+	<!-- Begin #header -->
+	<div id="header">
+	<div id="header2">
+	<div id="logo"><a href="http://www.binarytides.com/">BinaryTides</a></div>
+<div id="tagline">Genuine how-to guides on Linux, Ubuntu and FOSS</div>
+		<!-- Begin #topMenuRight -->
+			<div id="topMenuRight">
+			
+			</div>
+		<!-- End #topMenuRight -->
+	</div>
+	</div>
+	<!-- End #header -->
+
+
+
+	<!-- Begin #nav_menu -->
+	<div id="nav_menu">
+	<div id="nav_menu_contents">
+	<!-- Begin #topMenu -->
+	<div id="topMenu" class="ddsmoothmenu"><ul id="menu-header-navigation" class="menu"><li id="menu-item-7601" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-7601"><a href="http://www.binarytides.com/">Home</a></li>
+<li id="menu-item-7528" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7528"><a href="http://www.binarytides.com/category/apps/">Apps</a></li>
+<li id="menu-item-7530" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-7530"><a href="http://www.binarytides.com/category/programming/">Coding</a>
+<ul class="sub-menu">
+	<li id="menu-item-7532" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7532"><a href="http://www.binarytides.com/category/programming/html5-2/">Html5</a>
+	<ul class="sub-menu">
+		<li id="menu-item-7533" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7533"><a href="http://www.binarytides.com/category/programming/html5-2/box2d-game-programming/">Box2d</a></li>
+	</ul>
+</li>
+	<li id="menu-item-7534" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7534"><a href="http://www.binarytides.com/category/programming/javascript/">Javascript</a></li>
+	<li id="menu-item-7531" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7531"><a href="http://www.binarytides.com/category/programming/database/">Database</a></li>
+	<li id="menu-item-7535" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7535"><a href="http://www.binarytides.com/category/programming/php-tutorials/">PHP</a>
+	<ul class="sub-menu">
+		<li id="menu-item-7536" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7536"><a href="http://www.binarytides.com/category/programming/php-tutorials/php-snippets/">Php Snippets</a></li>
+		<li id="menu-item-7537" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7537"><a href="http://www.binarytides.com/category/programming/php-tutorials/tutorial/">Tutorial</a></li>
+	</ul>
+</li>
+	<li id="menu-item-7538" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-7538"><a href="http://www.binarytides.com/category/programming/sockets/">Socket Programming</a>
+	<ul class="sub-menu">
+		<li id="menu-item-7539" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7539"><a href="http://www.binarytides.com/category/programming/sockets/c-sockets/">C</a></li>
+		<li id="menu-item-7540" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7540"><a href="http://www.binarytides.com/category/programming/sockets/java-sockets-sockets/">Java</a></li>
+		<li id="menu-item-7541" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7541"><a href="http://www.binarytides.com/category/programming/sockets/perl/">Perl</a></li>
+		<li id="menu-item-7542" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7542"><a href="http://www.binarytides.com/category/programming/sockets/php-sockets-sockets/">PHP</a></li>
+		<li id="menu-item-7543" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-7543"><a href="http://www.binarytides.com/category/programming/sockets/python-sockets-sockets/">Python</a></li>
+		<li id="menu-item-7544" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7544"><a href="http://www.binarytides.com/category/programming/sockets/winsock-sockets/">Winsock</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-7545" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7545"><a href="http://www.binarytides.com/category/distros/">Distros</a>
+<ul class="sub-menu">
+	<li id="menu-item-7546" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7546"><a href="http://www.binarytides.com/category/distros/centos-linux/">CentOS</a></li>
+	<li id="menu-item-7547" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7547"><a href="http://www.binarytides.com/category/distros/debian-linux/">Debian</a></li>
+	<li id="menu-item-7548" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7548"><a href="http://www.binarytides.com/category/distros/fedora-linux/">Fedora</a></li>
+	<li id="menu-item-7549" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7549"><a href="http://www.binarytides.com/category/distros/linux-mint/">Linux Mint</a></li>
+	<li id="menu-item-7550" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7550"><a href="http://www.binarytides.com/category/distros/opensuse/">openSuse</a></li>
+	<li id="menu-item-7551" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7551"><a href="http://www.binarytides.com/category/distros/ubuntu-2/">Ubuntu</a></li>
+</ul>
+</li>
+<li id="menu-item-7552" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7552"><a href="http://www.binarytides.com/category/general/">General</a>
+<ul class="sub-menu">
+	<li id="menu-item-7555" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7555"><a href="http://www.binarytides.com/category/general/freelancing-general/">Freelancing</a></li>
+	<li id="menu-item-7556" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7556"><a href="http://www.binarytides.com/category/general/networking-2/">Networking</a></li>
+	<li id="menu-item-7557" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7557"><a href="http://www.binarytides.com/category/general/virtualbox/">Virtualbox</a></li>
+	<li id="menu-item-7558" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7558"><a href="http://www.binarytides.com/category/general/windows/">Windows</a></li>
+	<li id="menu-item-7559" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7559"><a href="http://www.binarytides.com/category/general/windows/windows-8/">Windows 8</a></li>
+</ul>
+</li>
+<li id="menu-item-7561" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7561"><a href="http://www.binarytides.com/category/linux/">Linux</a>
+<ul class="sub-menu">
+	<li id="menu-item-7562" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7562"><a href="http://www.binarytides.com/category/linux/hardware/">Hardware</a></li>
+	<li id="menu-item-7563" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7563"><a href="http://www.binarytides.com/category/linux/linux-commands-linux/">Linux Commands</a></li>
+</ul>
+</li>
+<li id="menu-item-7564" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7564"><a href="http://www.binarytides.com/category/reviews/">Reviews</a></li>
+<li id="menu-item-7565" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7565"><a href="http://www.binarytides.com/category/security/">Security</a>
+<ul class="sub-menu">
+	<li id="menu-item-7566" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7566"><a href="http://www.binarytides.com/category/security/burp-suite-hacking-2/">Burp Suite</a></li>
+	<li id="menu-item-7567" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7567"><a href="http://www.binarytides.com/category/security/kali-linux-hacking-2/">Kali Linux</a></li>
+	<li id="menu-item-7568" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7568"><a href="http://www.binarytides.com/category/security/metasploit-hacking-2/">Metasploit</a></li>
+</ul>
+</li>
+<li id="menu-item-7569" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7569"><a href="http://www.binarytides.com/category/server-2/">Server</a>
+<ul class="sub-menu">
+	<li id="menu-item-7570" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7570"><a href="http://www.binarytides.com/category/server-2/ftp-server-2/">FTP</a></li>
+	<li id="menu-item-7571" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7571"><a href="http://www.binarytides.com/category/server-2/http-server-2/">Http</a></li>
+	<li id="menu-item-7572" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7572"><a href="http://www.binarytides.com/category/server-2/monitoring/">Monitoring</a></li>
+	<li id="menu-item-7573" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7573"><a href="http://www.binarytides.com/category/server-2/smtp/">Smtp</a></li>
+</ul>
+</li>
+<li id="menu-item-7574" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-7574"><a href="http://www.binarytides.com/category/super-tips/">Super Tips</a></li>
+</ul></div>			
+	<!-- End #topMenu -->
+	</div>
+	</div>
+	<!-- End #nav_menu -->
+
+
+	<!-- Begin #content -->
+	<div id="content" class="clearfix">	<div id="title">
+
+				<h1>Code a network packet sniffer in python for Linux</h1>
+
+
+
+<div class="postMetaSingle" style="overflow:hidden;">
+
+<div class="info" style="font-size:90%; float:left;">
+
+	
+	<a class="category" href="http://www.binarytides.com/category/programming/sockets/python-sockets-sockets/" title="View all posts in Python">Python</a>	
+	<!-- author and date -->
+	<span style="margin-left:15px;">By</span> 
+	<span style="color: #07c;">Silver Moon</span> 
+
+	<!-- date -->
+	<span style="margin-left:15px;">On</span> 
+	<span style="color: #07c;">Nov 29, 2011</span>
+	
+	<!-- comments link -->
+	<span style="margin-left:15px;">
+		<a href="http://www.binarytides.com/python-packet-sniffer-code-linux/#comments">49 Comments</a>	</span>
+</div>
+<!-- info div close -->	
+
+
+</div>
+
+
+</div>
+
+<div id="colwrap">
+<!-- Begin #colLeft -->
+		<div id="colLeft">
+		<div id="colLeftInner">
+		<!-- Begin .postBox -->
+		<div class="postBox">
+
+			<div class="postBoxMid">
+				<div class="postBoxMidInner first clearfix">
+
+
+
+
+
+
+				
+
+<a id="dd_start"></a><div id='post_start'></div>
+<h3>Basic Sniffer</h3>
+<p>Sniffers are programs that can capture/sniff/detect network traffic packet by packet and analyse them for various reasons. Commonly used in the field of network security. Wireshark is a very common packet sniffer/protocol analyzer. Packet sniffers can be written in python too. In this article we are going to write a few very simple sniffers in python for the linux platform. Linux because, although python is a portable, the programs wont run or give similar results on windows for example. This is due to difference in the implementation of the socket api.</p>
+<pre class="adflexi"><div class="adcontent">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- binarytides.com 336x280 post top -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-5814774904969415"
+     data-ad-slot="0700059493"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+</pre>
+<p><!-- Time : 0.0001378059387207, Pos : 586 --></p>
+<p>Sniffers shown here dont use any extra libraries like libpcap. They just use raw sockets. So lets start coding them</p>
+<p>The most basic form of a sniffer would be</p>
+<pre class="brush: python; title: ; notranslate" title="">#Packet sniffer in python
+#For Linux
+
+import socket
+
+#create an INET, raw socket
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
+
+# receive a packet
+while True:
+  print s.recvfrom(65565)
+
+</pre>
+<p>Run this with root privileges or sudo on ubuntu :</p>
+<pre class="highlight  ">$ sudo python sniffer.py</pre>
+<p>The above sniffer works on the principle that a raw socket is capable of receiving all (of its type , like AF_INET) incoming traffic in Linux.</p>
+<p>The output could look like this :</p>
+<pre class="terminal" >$ sudo python raw_socket.py 
+(&quot;E \x00x\xcc\xfc\x00\x000\x06j%J}G\x13\xc0\xa8\x01\x06\x01\xbb\xa3\xdc\x0b\xbeI\xbf\x1aF[\x83P\x18\xff\xff\x88\xf6\x00\x00\x17\x03\x01\x00\x1c\xbbT\xb3\x07}\xb0\xedqE\x1e\xe7;-\x03\x9bU\xb7\xb1r\xd2\x9e]\xa1\xb8\xac\xa4V\x9a\x17\x03\x01\x00*\xed\x1f\xda\xa4##Qe\x9a\xe9\xd6\xadN\xf4\x9b\xc4\xf0C'\x01\xc4\x82\xdb\xb2\x8d(\xa5\xd0\x06\x95\x13WO\x0f\x8e\x1c\xa6f\x1d\xdf\xe1x&quot;, ('74.125.71.19', 0))
+('E \x00I\xcc\xfd\x00\x000\x06jSJ}G\x13\xc0\xa8\x01\x06\x01\xbb\xa3\xdc\x0b\xbeJ\x0f\x1aF[\x83P\x18\xff\xff:\x11\x00\x00\x17\x03\x01\x00\x1c\xaa];\t\x81yi\xbbC\xb5\x11\x14(Ct\x13\x10wt\xe0\xbam\xa9\x88/\xf8O{', ('74.125.71.19', 0))
+('E \x00(\xcc\xfe\x00\x000\x06jsJ}G\x13\xc0\xa8\x01\x06\x01\xbb\xa3\xdc\x0b\xbeJ0\x1aFa\x19P\x10\xff\xff\xe5\xb0\x00\x00', ('74.125.71.19', 0))
+('E \x00(\xcc\xff\x00\x000\x06jrJ}G\x13\xc0\xa8\x01\x06\x01\xbb\xa3\xdc\x0b\xbeJ0\x1aFbtP\x10\xff\xff\xe4U\x00\x00', ('74.125.71.19', 0))</pre>
+<p>The above is a dump of the network packets in hex. They can be parsed using the unpack function.</p>
+<h3>Parsing the sniffed packet</h3>
+<p>Here is the code sniff and parse a TCP packet</p>
+<pre class="brush: python; title: ; notranslate" title="">
+#Packet sniffer in python for Linux
+#Sniffs only incoming TCP packet
+
+import socket, sys
+from struct import *
+
+#create an INET, STREAMing socket
+try:
+	s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
+except socket.error , msg:
+	print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+	sys.exit()
+
+# receive a packet
+while True:
+	packet = s.recvfrom(65565)
+	
+	#packet string from tuple
+	packet = packet[0]
+	
+	#take first 20 characters for the ip header
+	ip_header = packet[0:20]
+	
+	#now unpack them :)
+	iph = unpack('!BBHHHBBH4s4s' , ip_header)
+	
+	version_ihl = iph[0]
+	version = version_ihl &gt;&gt; 4
+	ihl = version_ihl &amp; 0xF
+	
+	iph_length = ihl * 4
+	
+	ttl = iph[5]
+	protocol = iph[6]
+	s_addr = socket.inet_ntoa(iph[8]);
+	d_addr = socket.inet_ntoa(iph[9]);
+	
+	print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
+	
+	tcp_header = packet[iph_length:iph_length+20]
+	
+	#now unpack them :)
+	tcph = unpack('!HHLLBBHHH' , tcp_header)
+	
+	source_port = tcph[0]
+	dest_port = tcph[1]
+	sequence = tcph[2]
+	acknowledgement = tcph[3]
+	doff_reserved = tcph[4]
+	tcph_length = doff_reserved &gt;&gt; 4
+	
+	print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
+	
+	h_size = iph_length + tcph_length * 4
+	data_size = len(packet) - h_size
+	
+	#get data from the packet
+	data = packet[h_size:]
+	
+	print 'Data : ' + data
+	print
+
+
+
+
+</pre>
+<pre class="adwrap" style="border:1px solid #ddd; text-align:center; background:#fafafa; white-space:normal; height:90px;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- binarytides.com post middle horizontal -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5814774904969415"
+     data-ad-slot="7125586293"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</pre>
+<p><!-- Time : 0.0045220851898193 --></p>
+<p>The above code breaks down the packet into IP Header + TCP Header + Data.<br />
+The unpack function is used to break down the packet. <a target="_blank" href="http://docs.python.org/library/struct.html#format-characters" >Documentation</a></p>
+<p>The output of the code should look like this :</p>
+<pre class="terminal" >$ sudo python tcp_sniffer.py 
+Version : 4 IP Header Length : 5 TTL : 56 Protocol : 6 Source Address : 74.125.236.85 Destination Address : 192.168.1.101
+Source Port : 443 Dest Port : 38461 Sequence Number : 2809673723 Acknowledgement : 3312567259 TCP header length : 5
+Data : <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5f6d076060601f">[email&#160;protected]</a>???0? 
+                   ???k?/&amp;???=?5Hz??&gt;5QBp0?O???Z???$??
+
+Version : 4 IP Header Length : 5 TTL : 56 Protocol : 6 Source Address : 74.125.236.85 Destination Address : 192.168.1.101
+Source Port : 443 Dest Port : 38461 Sequence Number : 2809673778 Acknowledgement : 3312567259 TCP header length : 5
+Data : ?
+??j?!I??*??*??Z???;?L?]Y-
+
+Version : 4 IP Header Length : 5 TTL : 52 Protocol : 6 Source Address : 173.192.42.183 Destination Address : 192.168.1.101
+Source Port : 80 Dest Port : 52813 Sequence Number : 1202422309 Acknowledgement : 3492657980 TCP header length : 5
+Data : HTTP/1.1 502 Bad Gateway
+Server: nginx
+Date: Tue, 11 Sep 2012 08:56:00 GMT
+Content-Type: text/html
+Content-Length: 568
+Connection: close
+
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;502 Bad Gateway&lt;/title&gt;&lt;/head&gt;
+&lt;body bgcolor=&quot;white&quot;&gt;
+&lt;center&gt;&lt;h1&gt;502 Bad Gateway&lt;/h1&gt;&lt;/center&gt;
+&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+&lt;!-- a padding to disable MSIE and Chrome friendly error page --&gt;
+
+
+Version : 4 IP Header Length : 5 TTL : 56 Protocol : 6 Source Address : 74.125.236.85 Destination Address : 192.168.1.101
+Source Port : 443 Dest Port : 38461 Sequence Number : 2809673811 Acknowledgement : 3312568679 TCP header length : 5
+Data :</pre>
+<p>According to RFC 791 an IP header looks like this :</p>
+<pre class="brush: cpp; title: ; notranslate" title="">
+0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|Version|  IHL  |Type of Service|          Total Length         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         Identification        |Flags|      Fragment Offset    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Time to Live |    Protocol   |         Header Checksum       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       Source Address                          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Destination Address                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Options                    |    Padding    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+<p>If the IHL is 5 then total size is 20 bytes hence options+padding is absent.<br />
+For TCP packets the protocol is 6. Source address is the source IPv4 address in long format.</p>
+<p>Next comes the TCP header :</p>
+<pre class="brush: cpp; title: ; notranslate" title="">0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          Source Port          |       Destination Port        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Sequence Number                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Acknowledgment Number                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Data |           |U|A|P|R|S|F|                               |
+| Offset| Reserved  |R|C|S|S|Y|I|            Window             |
+|       |           |G|K|H|T|N|N|                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           Checksum            |         Urgent Pointer        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Options                    |    Padding    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             data                              |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+</pre>
+<p>and the balance after the TCP header is the data portion.</p>
+<p>The C version of the code is <a href="http://www.binarytides.com/blog/packet-sniffer-code-in-c-using-linux-sockets-bsd/" >here</a>.<br />
+The Php version of the code is <a href="http://www.binarytides.com/blog/code-a-packet-sniffer-in-php/" >here</a>.</p>
+<h3>Note : </h3>
+<p>1. The above sniffer picks up only TCP packets, because of the declaration :</p>
+<div class="highlight">
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
+</div>
+<p>For UDP and ICMP the declaration has to be :</p>
+<div class="highlight">
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP)<br />
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
+</div>
+<p>You might be tempted to think of doing :</p>
+<div class="highlight">
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+</div>
+<p>but this will not work , since IPPROTO_IP is a dummy protocol not a real one.</p>
+<p>2. This sniffer picks up only incoming packets.</p>
+<p>3. This sniffer delivers only IP frames , which means ethernet headers are not available.</p>
+<h3>Sniff all data with ethernet header</h3>
+<p>Now let us see how we can overcome the above mentioned drawbacks. The solutions is quite simple.</p>
+<p>This line :</p>
+<pre class="highlight  ">s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)</pre>
+<p>needs to be changed to :</p>
+<pre class="highlight  ">s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))</pre>
+<p>Now the same socket will receive :</p>
+<p>1. All incoming and outgoing traffic.</p>
+<p>2. All Ethernet frames , which means all kinds of IP packets(TCP , UDP , ICMP) and even other kinds of packets(like ARP) if there are any.</p>
+<p>3. It will also provide the ethernet header as a part of the received packet.</p>
+<p>Here is the source code :</p>
+<pre class="brush: python; title: ; notranslate" title="">
+#Packet sniffer in python
+#For Linux - Sniffs all incoming and outgoing packets :)
+#Silver Moon (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3954090957174a50554f0a4b795e54585055175a5654">[email&#160;protected]</a>)
+
+import socket, sys
+from struct import *
+
+#Convert a string of 6 characters of ethernet address into a dash separated hex string
+def eth_addr (a) :
+  b = &quot;%.2x:%.2x:%.2x:%.2x:%.2x:%.2x&quot; % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
+  return b
+
+#create a AF_PACKET type raw socket (thats basically packet level)
+#define ETH_P_ALL    0x0003          /* Every packet (be careful!!!) */
+try:
+	s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))
+except socket.error , msg:
+	print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+	sys.exit()
+
+# receive a packet
+while True:
+	packet = s.recvfrom(65565)
+	
+	#packet string from tuple
+	packet = packet[0]
+	
+	#parse ethernet header
+	eth_length = 14
+	
+	eth_header = packet[:eth_length]
+	eth = unpack('!6s6sH' , eth_header)
+	eth_protocol = socket.ntohs(eth[2])
+	print 'Destination MAC : ' + eth_addr(packet[0:6]) + ' Source MAC : ' + eth_addr(packet[6:12]) + ' Protocol : ' + str(eth_protocol)
+
+	#Parse IP packets, IP Protocol number = 8
+	if eth_protocol == 8 :
+		#Parse IP header
+		#take first 20 characters for the ip header
+		ip_header = packet[eth_length:20+eth_length]
+		
+		#now unpack them :)
+		iph = unpack('!BBHHHBBH4s4s' , ip_header)
+
+		version_ihl = iph[0]
+		version = version_ihl &gt;&gt; 4
+		ihl = version_ihl &amp; 0xF
+
+		iph_length = ihl * 4
+
+		ttl = iph[5]
+		protocol = iph[6]
+		s_addr = socket.inet_ntoa(iph[8]);
+		d_addr = socket.inet_ntoa(iph[9]);
+
+		print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
+
+		#TCP protocol
+		if protocol == 6 :
+			t = iph_length + eth_length
+			tcp_header = packet[t:t+20]
+
+			#now unpack them :)
+			tcph = unpack('!HHLLBBHHH' , tcp_header)
+			
+			source_port = tcph[0]
+			dest_port = tcph[1]
+			sequence = tcph[2]
+			acknowledgement = tcph[3]
+			doff_reserved = tcph[4]
+			tcph_length = doff_reserved &gt;&gt; 4
+			
+			print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
+			
+			h_size = eth_length + iph_length + tcph_length * 4
+			data_size = len(packet) - h_size
+			
+			#get data from the packet
+			data = packet[h_size:]
+			
+			print 'Data : ' + data
+
+		#ICMP Packets
+		elif protocol == 1 :
+			u = iph_length + eth_length
+			icmph_length = 4
+			icmp_header = packet[u:u+4]
+
+			#now unpack them :)
+			icmph = unpack('!BBH' , icmp_header)
+			
+			icmp_type = icmph[0]
+			code = icmph[1]
+			checksum = icmph[2]
+			
+			print 'Type : ' + str(icmp_type) + ' Code : ' + str(code) + ' Checksum : ' + str(checksum)
+			
+			h_size = eth_length + iph_length + icmph_length
+			data_size = len(packet) - h_size
+			
+			#get data from the packet
+			data = packet[h_size:]
+			
+			print 'Data : ' + data
+
+		#UDP packets
+		elif protocol == 17 :
+			u = iph_length + eth_length
+			udph_length = 8
+			udp_header = packet[u:u+8]
+
+			#now unpack them :)
+			udph = unpack('!HHHH' , udp_header)
+			
+			source_port = udph[0]
+			dest_port = udph[1]
+			length = udph[2]
+			checksum = udph[3]
+			
+			print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Length : ' + str(length) + ' Checksum : ' + str(checksum)
+			
+			h_size = eth_length + iph_length + udph_length
+			data_size = len(packet) - h_size
+			
+			#get data from the packet
+			data = packet[h_size:]
+			
+			print 'Data : ' + data
+
+		#some other IP packet like IGMP
+		else :
+			print 'Protocol other than TCP/UDP/ICMP'
+			
+		print
+
+
+</pre>
+<p>The above program must be run with root privileges.</p>
+<p>The output should be something like this :</p>
+<pre class="terminal" >Destination MAC : 00-1c-c0-f8-79-ee Source MAC : 00-25-5e-1a-3d-f1 Protocol : 8
+Version : 4 IP Header Length : 5 TTL : 57 Protocol : 6 Source Address : 64.131.72.23 Destination Address : 192.168.1.6
+Source Port : 80 Dest Port : 58928 Sequence Number : 1392138007 Acknowledgement : 2935013912 TCP header length : 6
+Data : ??y?%^?=E ,@<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7fef8a487">[email&#160;protected]</a>?H?P?0R?W????`?5t?
+
+Destination MAC : 00-25-5e-1a-3d-f1 Source MAC : 00-1c-c0-f8-79-ee Protocol : 8
+Version : 4 IP Header Length : 5 TTL : 64 Protocol : 6 Source Address : 192.168.1.6 Destination Address : 64.131.72.23
+Source Port : 58928 Dest Port : 80 Sequence Number : 2935013912 Acknowledgement : 1392138008 TCP header length : 5
+Data : %^?=???yE(<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d00382d">[email&#160;protected]</a>@<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4d727f720d">[email&#160;protected]</a>?H?0P????R?W?PJc
+
+Destination MAC : 00-1c-c0-f8-79-ee Source MAC : 00-25-5e-1a-3d-f1 Protocol : 8
+Version : 4 IP Header Length : 5 TTL : 55 Protocol : 17 Source Address : 78.141.179.8 Destination Address : 192.168.1.6
+Source Port : 34049 Dest Port : 56295 Length : 28 Checksum : 25749
+Data : @7?YN?????d??????r'<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="18276158">[email&#160;protected]</a>?f?h`??
+
+Destination MAC : 00-1c-c0-f8-79-ee Source MAC : 00-25-5e-1a-3d-f1 Protocol : 8
+Version : 4 IP Header Length : 5 TTL : 118 Protocol : 17 Source Address : 173.181.21.51 Destination Address : 192.168.1.6
+Source Port : 5999 Dest Port : 56295 Length : 26 Checksum : 22170
+Data : s)vL??3?o???V?Z???cw?k??pIQ</pre>
+<p>It parses the Ethernet header and also the UDP and ICMP headers.</p>
+<p>Ethernet header looks like this :</p>
+<pre class="pre_text" >+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       Ethernet destination address (first 32 bits)            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Ethernet dest (last 16 bits)  |Ethernet source (first 16 bits)|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       Ethernet source address (last 32 bits)                  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|        Type code              |                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre>
+<p>UDP Header according to RFC 768 :</p>
+<pre class="pre_text" >0      7 8     15 16    23 24    31  
+ +--------+--------+--------+--------+ 
+ |     Source      |   Destination   | 
+ |      Port       |      Port       | 
+ +--------+--------+--------+--------+ 
+ |                 |                 | 
+ |     Length      |    Checksum     | 
+ +--------+--------+--------+--------+ 
+ |                                     
+ |          data octets ...            
+ +---------------- ...</pre>
+<p>ICMP Header according to RFC 792 :</p>
+<pre class="pre_text" >0                   1                   2                   3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     Type      |     Code      |          Checksum             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             unused                            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|      Internet Header + 64 bits of Original Data Datagram      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</pre>
+<p>This kind of a sniffer does not depend on any external libraries like libpcap.</p>
+<p>The C version of this code is <a href="http://www.binarytides.com/blog/packet-sniffer-code-in-c-using-linux-sockets-bsd-part-2/" >here</a>.</p>
+<h3>Resources</h3>
+<p>1. <a target="_blank" href="http://docs.python.org/library/socket.html" >http://docs.python.org/library/socket.html</a></p>
+<div class="updated_on">Last Updated On : 15th December 2012</div>
+<div class='dd_outer'><div class='dd_inner'><div id='dd_ajax_float'><div class='dd_button_v'><a target="_blank" href="http://twitter.com/share"  class="twitter-share-button" data-url="http://www.binarytides.com/python-packet-sniffer-code-linux/" data-count="vertical" data-text="Code a network packet sniffer in python for Linux" data-via="binarytides" ></a><script data-cfasync="false" src="/cdn-cgi/scripts/d07b1474/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></div><div style='clear:left'></div><div class='dd_button_v'><iframe src='http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.binarytides.com%2Fpython-packet-sniffer-code-linux%2F&amp;locale=en_US&amp;layout=box_count&amp;action=like&amp;width=50&amp;height=60&amp;colorscheme=light' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:50px; height:62px;' allowTransparency='true'></iframe></div><div style='clear:left'></div><div class='dd_button_v'><script type='text/javascript' src='https://apis.google.com/js/plusone.js'></script><g:plusone size='tall' href='http://www.binarytides.com/python-packet-sniffer-code-linux/'></g:plusone></div><div style='clear:left'></div><div class='dd_button_v'><script src='//platform.linkedin.com/in.js' type='text/javascript'></script><script type='IN/Share' data-url='http://www.binarytides.com/python-packet-sniffer-code-linux/' data-counter='top'></script></div><div style='clear:left'></div></div></div></div><script type="text/javascript">var dd_offset_from_content = 40;var dd_top_offset_from_content = 0;var dd_override_start_anchor_id = "";var dd_override_top_offset = "";</script><script type="text/javascript" src="http://www.binarytides.com/blog/wp-content/plugins/digg-digg//js/diggdigg-floating-bar.js?ver=5.3.6"></script>
+
+
+
+
+
+                    <div class="postTags">
+<a href="http://www.binarytides.com/tag/linux-2/"><b>linux</b></a><a href="http://www.binarytides.com/tag/python/"><b>python</b></a><a href="http://www.binarytides.com/tag/socket-programming/"><b>socket programming</b></a></div>
+
+
+
+
+
+				</div>
+	
+
+<input type="hidden" name="IL_IN_TAG" value="2"/>
+				
+
+<div id="subscribe_feedburner"> 
+
+<form style="text-align:center;" action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=binarytides', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+
+
+<p style="margin:0; font-weight:bold;">
+Subscribe to get updates delivered to your inbox 
+
+<input type="text" name="email" placeholder="Enter email to subscribe" style="width: 200px;
+border:none;
+padding: 5px;
+line-height: 20px;
+outline: none;
+margin-left: 10px;"/>
+
+<input type="submit" value="Subscribe" style="background: #07c;
+color: #fff;
+border:none;
+margin:0 0 0 10px;
+outline: none;
+font-weight:bold;
+line-height: 20px;
+background:#E26A1A;
+padding: 5px 10px;" />
+</p>
+
+<input type="hidden" value="binarytides" name="uri"/><input type="hidden" name="loc" value="en_US"/>
+
+
+</form>
+</div>
+
+
+
+
+<div class="postCredentials">
+				
+<div id="relatedPosts">
+		
+							
+							<!-- Related Posts-->
+
+<div class='yarpp-related'>
+<h3>Related Posts</h3>
+<ul>
+		<li>
+		<a href="http://www.binarytides.com/code-a-packet-sniffer-in-python-with-pcapy-extension/" rel="bookmark" title="Code a packet sniffer in python with pcapy extension">
+	<img width="220" height="120" src="http://www.binarytides.com/blog/wp-content/uploads/2013/09/elementary-os-luna-220x120.png" />
+</a>	
+
+		
+	<a href="http://www.binarytides.com/code-a-packet-sniffer-in-python-with-pcapy-extension/">Code a packet sniffer in python with pcapy extension</a><!-- (56.2)-->
+
+</li>
+		<li>
+		<a href="http://www.binarytides.com/code-a-packet-sniffer-in-php/" rel="bookmark" title="Code a network packet sniffer in PHP">
+	<img width="220" height="120" src="http://www.binarytides.com/blog/wp-content/uploads/2013/09/elementary-os-luna-220x120.png" />
+</a>	
+
+		
+	<a href="http://www.binarytides.com/code-a-packet-sniffer-in-php/">Code a network packet sniffer in PHP</a><!-- (50.9)-->
+
+</li>
+		<li>
+		<a href="http://www.binarytides.com/packet-sniffer-code-c-linux/" rel="bookmark" title="Packet Sniffer Code in C using sockets | Linux">
+	<img width="220" height="120" src="http://www.binarytides.com/blog/wp-content/uploads/2013/09/elementary-os-luna-220x120.png" />
+</a>	
+
+		
+	<a href="http://www.binarytides.com/packet-sniffer-code-c-linux/">Packet Sniffer Code in C using sockets | Linux</a><!-- (42.4)-->
+
+</li>
+	</ul>
+
+<div style="clear:both;"></div>
+</div>
+
+</div>
+
+														<!-- end Related Posts-->
+							
+
+
+<div id="authorDetails">
+								<img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=64&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=128&#038;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' />				About <b>Silver Moon</b>
+						<p>
+Php developer, blogger and Linux enthusiast. 
+He can be reached at <a href="/cdn-cgi/l/email-protection#ddbfb4b3bcafa4a9b4b9b8ae9dbab0bcb4b1f3beb2b0"><span class="__cf_email__" data-cfemail="73111a1d12010a071a17160033141e121a1f5d101c1e">[email&#160;protected]</span></a>.
+Or find him on <a href="https://plus.google.com/117145272367995638274/posts" rel="author">Google+</a>
+
+</p>
+						</div>
+					
+		</div>
+		<!-- postboxcredentials -->
+	
+
+<div class="ad728x90 adwrap" style="margin:20px 0;">
+
+<!-- BEGIN IFRAME TAG - binarytides.com RON Global Display Rev Share < - DO NOT MODIFY -->
+<IFRAME SRC="http://ads.cpxinteractive.com/tt?id=2151978&size=728x90&referrer=binarytides.com" FRAMEBORDER="0" SCROLLING="no" MARGINHEIGHT="0" MARGINWIDTH="0" TOPMARGIN="0" LEFTMARGIN="0" ALLOWTRANSPARENCY="true" WIDTH="728" HEIGHT="90"></IFRAME>
+<!-- END TAG -->
+
+</div>
+
+<div class="postBoxMidInner" id="comments">
+		
+		
+		
+        
+<!-- You can start editing here. -->
+
+	<h2 class="h2comments">49 Comments <a href="#respond" class="addComment">+ Add Comment</a></h2>
+
+	<ul class="commentlist">
+	   <li class="comment even thread-even depth-1 clearfix" id="li-comment-105864">
+	 <img alt='' src='http://0.gravatar.com/avatar/616843806ebe8b9caf794b6758680e78?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/616843806ebe8b9caf794b6758680e78?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-105864">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a target="_blank" href="http://bitforestinfo.blogspot.com/"  rel='external nofollow' class='url'>Suraj singh Bisht</a></strong> <span>February 15, 2017 at 4:13 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>For Latest Example Check This Link <a target="_blank" href="http://bitforestinfo.blogspot.com/2017/01/how-to-write-simple-packet-sniffer.html"  rel="nofollow">http://bitforestinfo.blogspot.com/2017/01/how-to-write-simple-packet-sniffer.html</a></p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=105864#respond' onclick='return addComment.moveForm( "comment-105864", "105864", "respond", "1018" )' aria-label='Reply to Suraj singh Bisht'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-101245">
+	 <img alt='' src='http://0.gravatar.com/avatar/fefcbe9143bbfc4a7e637deb7792406b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/fefcbe9143bbfc4a7e637deb7792406b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-101245">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>flyq</strong> <span>December 27, 2016 at 8:02 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>nice, thank you</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=101245#respond' onclick='return addComment.moveForm( "comment-101245", "101245", "respond", "1018" )' aria-label='Reply to flyq'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-94614">
+	 <img alt='' src='http://0.gravatar.com/avatar/3fc512aff3368ae775700bd6b45f21ea?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/3fc512aff3368ae775700bd6b45f21ea?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-94614">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>momo</strong> <span>September 24, 2016 at 9:04 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Can this code sniff SIP message ?<br />
+I see it can sniff NBNS packet ( format like SIP msg different only payload )<br />
+but can&#8217;t sniff SIP</p>
+<p>thx for your advie<br />
+sorry for my poor english</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=94614#respond' onclick='return addComment.moveForm( "comment-94614", "94614", "respond", "1018" )' aria-label='Reply to momo'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-94560">
+	 <img alt='' src='http://0.gravatar.com/avatar/3fc512aff3368ae775700bd6b45f21ea?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/3fc512aff3368ae775700bd6b45f21ea?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-94560">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>momo</strong> <span>September 23, 2016 at 3:37 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>I want to sniff SIP. I already check in wireshark, sip is use udp only ( and port 5060 only ).<br />
+But Program never sniff SIP. </p>
+<p>Sorry for my poor english<br />
+Thx for your advice</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=94560#respond' onclick='return addComment.moveForm( "comment-94560", "94560", "respond", "1018" )' aria-label='Reply to momo'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-86559">
+	 <img alt='' src='http://0.gravatar.com/avatar/68fb2c86dea789c3f0cfcc9e3ab1ab1e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/68fb2c86dea789c3f0cfcc9e3ab1ab1e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-86559">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>MannyH</strong> <span>June 28, 2016 at 6:09 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Hi &#8211; Awesome post &#8211; love it! </p>
+<p>Any recommendations on how I can mod it for parsing pcaps?  I&#8217;d like to avoid using DPKT or PyShark! </p>
+<p>Thxs!!</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=86559#respond' onclick='return addComment.moveForm( "comment-86559", "86559", "respond", "1018" )' aria-label='Reply to MannyH'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-74437">
+	 <img alt='' src='http://0.gravatar.com/avatar/9f8f2eee56d8a3596039d5e2f35209f4?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/9f8f2eee56d8a3596039d5e2f35209f4?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-74437">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>ankur</strong> <span>April 19, 2016 at 10:58 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>awesome&#8230;.just awesome</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=74437#respond' onclick='return addComment.moveForm( "comment-74437", "74437", "respond", "1018" )' aria-label='Reply to ankur'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-70763">
+	 <img alt='' src='http://1.gravatar.com/avatar/7bdb8d2322d9c700377f69e61900181b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/7bdb8d2322d9c700377f69e61900181b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-70763">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a target="_blank" href="http://binarycodec.blogspot.com"  rel='external nofollow' class='url'>cleber</a></strong> <span>March 17, 2016 at 7:15 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>to save captures in archives:  $ sudo python sniffer.py &gt; log.txt</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=70763#respond' onclick='return addComment.moveForm( "comment-70763", "70763", "respond", "1018" )' aria-label='Reply to cleber'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-70760">
+	 <img alt='' src='http://1.gravatar.com/avatar/7bdb8d2322d9c700377f69e61900181b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/7bdb8d2322d9c700377f69e61900181b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-70760">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a target="_blank" href="http://binarycodec.blogspot.com"  rel='external nofollow' class='url'>cleber</a></strong> <span>March 17, 2016 at 7:01 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Excelente tutorial!</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=70760#respond' onclick='return addComment.moveForm( "comment-70760", "70760", "respond", "1018" )' aria-label='Reply to cleber'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-69581">
+	 <img alt='' src='http://0.gravatar.com/avatar/fe0a5e6cda646eaf8a7ede6d68e55dba?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/fe0a5e6cda646eaf8a7ede6d68e55dba?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-69581">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>ayiis</strong> <span>March 7, 2016 at 3:02 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>love it</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=69581#respond' onclick='return addComment.moveForm( "comment-69581", "69581", "respond", "1018" )' aria-label='Reply to ayiis'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-68045">
+	 <img alt='' src='http://0.gravatar.com/avatar/65c786ed8f9cf108d8597a28cfb75582?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/65c786ed8f9cf108d8597a28cfb75582?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-68045">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Veit</strong> <span>September 21, 2015 at 2:23 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the great post. It is really usefull.<br />
+There is a way to block (drop) some packets? like:</p>
+<p>if  source_ip == &#8216;192.168.1.1&#8217; :<br />
+     drop()</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=68045#respond' onclick='return addComment.moveForm( "comment-68045", "68045", "respond", "1018" )' aria-label='Reply to Veit'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-67979">
+	 <img alt='' src='http://1.gravatar.com/avatar/d4659f38a392fe3d2b0f19ac1863e7a8?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/d4659f38a392fe3d2b0f19ac1863e7a8?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67979">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Eric</strong> <span>June 28, 2015 at 10:50 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Can it dump to a pcap?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67979#respond' onclick='return addComment.moveForm( "comment-67979", "67979", "respond", "1018" )' aria-label='Reply to Eric'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-67948">
+	 <img alt='' src='http://1.gravatar.com/avatar/7d6ad2a9dba9ac3f8d0642cab0ae4b7d?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/7d6ad2a9dba9ac3f8d0642cab0ae4b7d?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67948">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>John Just</strong> <span>June 1, 2015 at 9:33 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>I&#8217;m trying very hard to find how to convert the line below to something in Windows that will capture the ethernet header.  Do you have any ideas?  I have looked at the Python docs and been searching forums but haven&#8217;t seen anything&#8230;.<br />
+s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67948#respond' onclick='return addComment.moveForm( "comment-67948", "67948", "respond", "1018" )' aria-label='Reply to John Just'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-67839">
+	 <img alt='' src='http://2.gravatar.com/avatar/e4fa44a485fa7c2f411792438eb21acf?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e4fa44a485fa7c2f411792438eb21acf?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67839">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Hong Kong</strong> <span>February 23, 2015 at 7:41 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>May be you should try again with root previlege</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67839#respond' onclick='return addComment.moveForm( "comment-67839", "67839", "respond", "1018" )' aria-label='Reply to Hong Kong'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-67765">
+	 <img alt='' src='http://0.gravatar.com/avatar/3e4f0434051480cb0480e33a92627f3e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/3e4f0434051480cb0480e33a92627f3e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67765">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>尤川豪</strong> <span>January 27, 2015 at 9:42 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>wow! what an awesome tutorial!<br />
+Thank you very much!<br />
+It&#8217;s really informative!</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67765#respond' onclick='return addComment.moveForm( "comment-67765", "67765", "respond", "1018" )' aria-label='Reply to 尤川豪'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-67601">
+	 <img alt='' src='http://2.gravatar.com/avatar/e1413afb925b27661ddc4ea81d1e6319?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e1413afb925b27661ddc4ea81d1e6319?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67601">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>pradeep</strong> <span>November 24, 2014 at 6:20 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the very details and great article.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67601#respond' onclick='return addComment.moveForm( "comment-67601", "67601", "respond", "1018" )' aria-label='Reply to pradeep'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-67578">
+	 <img alt='' src='http://1.gravatar.com/avatar/46972ac6ddc555521a4b8e1ba56d6b3e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/46972ac6ddc555521a4b8e1ba56d6b3e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67578">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>matt</strong> <span>November 12, 2014 at 12:55 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>So I tried to convert this code to python 3. But I am running into problems with the unpacking part, specifically the line &#8220;eth = unpack(&#8216;!6s6sH&#8217;, eth_header)&#8221;. What is this line doing and why in python3 does it seem to do something else?</p>
+<p>Anyone tried converting the code to python3?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67578#respond' onclick='return addComment.moveForm( "comment-67578", "67578", "respond", "1018" )' aria-label='Reply to matt'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment even depth-2 clearfix" id="li-comment-67828">
+	 <img alt='' src='http://2.gravatar.com/avatar/bc9785d7a4f1474db8dae3c26eeee745?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/bc9785d7a4f1474db8dae3c26eeee745?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67828">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Phosphenius</strong> <span>February 18, 2015 at 11:36 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>unpack(..) is part of the pack module which provides functionality to pack binary data into strings objects. Since the Python3 socket functions no longer work with string objects but with bytes objects instead, you don&#8217;t need (un)packing anymore.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67828#respond' onclick='return addComment.moveForm( "comment-67828", "67828", "respond", "1018" )' aria-label='Reply to Phosphenius'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt depth-2 clearfix" id="li-comment-70693">
+	 <img alt='' src='http://1.gravatar.com/avatar/ae1211215707f9089b5c5d355cff5408?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/ae1211215707f9089b5c5d355cff5408?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-70693">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a target="_blank" href="https://welbornprod.com"  rel='external nofollow' class='url'>Cj Welborn</a></strong> <span>March 17, 2016 at 7:00 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>A while back I ported this to Python 3, and reformatted it a little. It&#8217;s on my paste site ( <a target="_blank" href="https://welbornprod.com/paste/?id=fgyx"  rel="nofollow">https://welbornprod.com/paste/?id=fgyx</a> ).</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=70693#respond' onclick='return addComment.moveForm( "comment-70693", "70693", "respond", "1018" )' aria-label='Reply to Cj Welborn'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-67531">
+	 <img alt='' src='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67531">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>aaron</strong> <span>October 23, 2014 at 2:59 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the great post. It is really helpful. Could you please explain me what does &#8216;!HHLLBBHHH&#8217; this means? Sorry for being naive.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67531#respond' onclick='return addComment.moveForm( "comment-67531", "67531", "respond", "1018" )' aria-label='Reply to aaron'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment odd alt depth-2 clearfix" id="li-comment-67840">
+	 <img alt='' src='http://1.gravatar.com/avatar/7841a97399e4e0035e1215b307c2461d?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/7841a97399e4e0035e1215b307c2461d?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67840">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Random</strong> <span>February 23, 2015 at 7:44 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>I have tried googling it.<br />
+the &#8220;!&#8221; in unpack(&#8220;!HHLLBBHHH&#8221;) means the unpacked data should follow the format after this &#8220;!&#8221;,<br />
+which is &#8220;H, H, L, L, B, B, H, H, H&#8221;, these will unpacked as a tuple.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67840#respond' onclick='return addComment.moveForm( "comment-67840", "67840", "respond", "1018" )' aria-label='Reply to Random'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-67526">
+	 <img alt='' src='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67526">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>aaron</strong> <span>October 21, 2014 at 3:36 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>It&#8217;s really difficult to find the detailed program you have provided in<br />
+any other site. Thank you. If you also give the description for your<br />
+programs, it would become the great website for learning socket<br />
+programming.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67526#respond' onclick='return addComment.moveForm( "comment-67526", "67526", "respond", "1018" )' aria-label='Reply to aaron'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-67525">
+	 <img alt='' src='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67525">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>aaron</strong> <span>October 21, 2014 at 2:29 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for very useful info. I&#8217;m novice to socket programming. Please help me with this. Is it possible to receive both TCP and ICMP packets in a single code. Is it something like creating a socket with this type: s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP_TCP)</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67525#respond' onclick='return addComment.moveForm( "comment-67525", "67525", "respond", "1018" )' aria-label='Reply to aaron'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-65992">
+	 <img alt='' src='http://0.gravatar.com/avatar/6134034dbe33efa903731cea67aadf33?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/6134034dbe33efa903731cea67aadf33?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65992">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Baktha</strong> <span>February 22, 2014 at 5:04 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the very clear and detailed note/tip!!</p>
+<p>One question&#8211; despite putting eth0 in promiscuous mode, I seem to be able  to sniff ONLY packets destined to the Pi. I am trying to connect the Pi  to a Layer2 switch, and using port mirroring/spanning, trying to sniff<br />
+packets going to/from another port (on the Layer 2 switch).</p>
+<p>Any hints on why the Pi does not seem to be &#8220;see&#8221; or sniff packets with destination addresses other than its own?</p>
+<p>Thanks much!</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65992#respond' onclick='return addComment.moveForm( "comment-65992", "65992", "respond", "1018" )' aria-label='Reply to Baktha'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-65907">
+	 <img alt='' src='http://2.gravatar.com/avatar/bdcb007555017e2fd3e0080d59bf824b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/bdcb007555017e2fd3e0080d59bf824b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65907">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>p</strong> <span>December 26, 2013 at 2:50 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the post. My question is how can you know that which format specifier is to be used to unpack a particular header?  For an example in case of a ethernet header we use unpack(!6s!6s!2s). How can I know that I have to use strings and not any other format specifier to get ethernet addresses? Is there any documentation for it?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65907#respond' onclick='return addComment.moveForm( "comment-65907", "65907", "respond", "1018" )' aria-label='Reply to p'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-65802">
+	 <img alt='' src='http://2.gravatar.com/avatar/5a2d6a17424a997970d7a1caebdc5aa5?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5a2d6a17424a997970d7a1caebdc5aa5?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65802">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>spicyramen</strong> <span>November 4, 2013 at 7:49 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>I tried your code and have problems parsing fragmented packets, how can I reassemble them&gt;</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65802#respond' onclick='return addComment.moveForm( "comment-65802", "65802", "respond", "1018" )' aria-label='Reply to spicyramen'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-65753">
+	 <img alt='' src='http://1.gravatar.com/avatar/19e3059e4c67e2d0bb14961ddf36fec1?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/19e3059e4c67e2d0bb14961ddf36fec1?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65753">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Paradise</strong> <span>October 12, 2013 at 6:44 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Hi!</p>
+<p>I can&#8217;t understand how this could work since socket.recvfrom() seems to work only for IPPROTO_UDP sockets.</p>
+<p>When I try to do this:</p>
+<p>s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)<br />
+while True:<br />
+       print s.recvfrom(65565)</p>
+<p>I have this error:<br />
+&#8221;     print s.recvfrom(65565)<br />
+socket.error: [Errno 10022] An invalid argument was supplied&#8221;</p>
+<p>This works fine with IPPROTO_UDP</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65753#respond' onclick='return addComment.moveForm( "comment-65753", "65753", "respond", "1018" )' aria-label='Reply to Paradise'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-65709">
+	 <img alt='' src='http://2.gravatar.com/avatar/8d066dfecf6898569dbe9be0a4a43191?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/8d066dfecf6898569dbe9be0a4a43191?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65709">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>ciobanu alexandru cristian</strong> <span>September 14, 2013 at 4:39 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>thank you!</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65709#respond' onclick='return addComment.moveForm( "comment-65709", "65709", "respond", "1018" )' aria-label='Reply to ciobanu alexandru cristian'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-65623">
+	 <img alt='' src='http://1.gravatar.com/avatar/a21ae4b47451a91d1ed80a2d6c6b231b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/a21ae4b47451a91d1ed80a2d6c6b231b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65623">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>illyria</strong> <span>July 29, 2013 at 7:41 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Nice article. Where does socket.ntohs(0x0003) come from? I couldn&#8217;t find this constant in any of the BSD socket docs.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65623#respond' onclick='return addComment.moveForm( "comment-65623", "65623", "respond", "1018" )' aria-label='Reply to illyria'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-65600">
+	 <img alt='' src='http://2.gravatar.com/avatar/2b4894402879938cc32827c74c52d167?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/2b4894402879938cc32827c74c52d167?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65600">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>j0lly</strong> <span>June 30, 2013 at 10:22 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Hello sir, i&#8217;m really enjoying your articles about python and sockets; I&#8217;m also translating it in my language and is a very educational exercise. The unpack header is a bit over my knowledge but, for what i can understand and read, you are using 20 bytes as standard tcp header; Am i right? if so, is this a typical simplified construct to not bother with the [options] flag in the tcp header? i&#8217;m a real beginner in programming and in networking, but i would like to understand if i&#8217;m parsing the right way your code. Thanks for the precious articles</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65600#respond' onclick='return addComment.moveForm( "comment-65600", "65600", "respond", "1018" )' aria-label='Reply to j0lly'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-64954">
+	 <img alt='' src='http://2.gravatar.com/avatar/848870b4043d5ca319aa3111cb55845b?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/848870b4043d5ca319aa3111cb55845b?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-64954">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>tejas</strong> <span>February 28, 2013 at 11:39 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Why am I getting only UDP packets from other IPs in the network? Why am I not getting TCP packets from others?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=64954#respond' onclick='return addComment.moveForm( "comment-64954", "64954", "respond", "1018" )' aria-label='Reply to tejas'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment even depth-2 clearfix" id="li-comment-64955">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-64955">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a href="http://www.binarytides.com/"  rel='external nofollow' class='url'>Silver Moon</a></strong> <span>February 28, 2013 at 12:27 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>what is the type of socket you are creating ?</p>
+<p>the following socket will fetch only incoming udp packets.<br />
+s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_UDP); </p>
+<p>the following socket will fetch all incoming and outgoing packets as raw ethernet frames.<br />
+s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003));</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=64955#respond' onclick='return addComment.moveForm( "comment-64955", "64955", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-odd thread-alt depth-1 clearfix" id="li-comment-64949">
+	 <img alt='' src='http://1.gravatar.com/avatar/40dae2032be7a2987fc6b9552a9d24f3?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/40dae2032be7a2987fc6b9552a9d24f3?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-64949">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>David Luu</strong> <span>February 22, 2013 at 12:42 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Helpful post. What would you recommend if we&#8217;d want to sniff outgoing packets too? Maybe need to run sniffer on a machine that&#8217;s set as a router/proxy where the endpoints of interest (to sniff) pass data through?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=64949#respond' onclick='return addComment.moveForm( "comment-64949", "64949", "respond", "1018" )' aria-label='Reply to David Luu'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment even depth-2 clearfix" id="li-comment-64950">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-64950">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a href="http://www.binarytides.com/"  rel='external nofollow' class='url'>Silver Moon</a></strong> <span>February 22, 2013 at 2:19 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>use the 2nd sniffer that sniffs both incoming and outgoing data along with ethernet headers</p>
+<p>s = socket.socket( socket.AF_PACKET , socket.SOCK_RAW , socket.ntohs(0x0003))</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=64950#respond' onclick='return addComment.moveForm( "comment-64950", "64950", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-64914">
+	 <img alt='' src='http://2.gravatar.com/avatar/5ad7c0714ee79a9c489608854b9e9f8f?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5ad7c0714ee79a9c489608854b9e9f8f?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-64914">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>kapil</strong> <span>January 23, 2013 at 12:06 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>hehehhe&#8230;. man wats d need 2 write such a huge code&#8230; u cud hav implemented d same thing in hardly 20-30 lines of code using the SCAPY module in python&#8230;.  :)</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=64914#respond' onclick='return addComment.moveForm( "comment-64914", "64914", "respond", "1018" )' aria-label='Reply to kapil'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-58394">
+	 <img alt='' src='http://2.gravatar.com/avatar/bcefb7d2b30666f62be143421046f6db?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/bcefb7d2b30666f62be143421046f6db?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-58394">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a target="_blank" href="http://www.jijokjose.com"  rel='external nofollow' class='url'>jijokjose</a></strong> <span>November 18, 2012 at 8:23 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for the script. I run this sniffer script and it works perfectly but the data portion is not much formatted. Some unreadable chacters are displaying. Like the following</p>
+<p>Data : 6\FC\81\800000pagead2googlesyndicationcom000\C000000c0pagead46ldoubleclicknet0\C0;00000f0J}\EB-</p>
+<p>Is there is any way to convert this to unreadable content into readable text ..??</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=58394#respond' onclick='return addComment.moveForm( "comment-58394", "58394", "respond", "1018" )' aria-label='Reply to jijokjose'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2 clearfix" id="li-comment-58507">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-58507">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Silver Moon</strong> <span>November 20, 2012 at 6:32 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>unreadable characters mean they dont have any representable ascii character.<br />
+so they just display as codes.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=58507#respond' onclick='return addComment.moveForm( "comment-58507", "58507", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment even thread-even depth-1 clearfix" id="li-comment-55565">
+	 <img alt='' src='http://1.gravatar.com/avatar/1443a67b8c1b8ffd44cddad350ae6e2a?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/1443a67b8c1b8ffd44cddad350ae6e2a?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-55565">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Mark</strong> <span>September 10, 2012 at 7:53 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Great script thanks. Is there a way to taylor it to only sniff on a particular port?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=55565#respond' onclick='return addComment.moveForm( "comment-55565", "55565", "respond", "1018" )' aria-label='Reply to Mark'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2 clearfix" id="li-comment-55584">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-55584">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Silver Moon</strong> <span>September 11, 2012 at 12:07 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>its not possible directly, instead the port of all tcp/udp packets need to be checked and the particular packet has to be picked out.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=55584#respond' onclick='return addComment.moveForm( "comment-55584", "55584", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment even depth-3 clearfix" id="li-comment-67571">
+	 <img alt='' src='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/5e8caef20795b4535946f3cac7ec15b1?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-67571">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Aaron88</strong> <span>November 9, 2014 at 1:07 am	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>why can&#8217;t we bind a socket to particular port and sniff only on that port. Kindly reply, I really need information on this for my project. All of my questions asked here are ignored. Please guys.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=67571#respond' onclick='return addComment.moveForm( "comment-67571", "67571", "respond", "1018" )' aria-label='Reply to Aaron88'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment odd alt depth-2 clearfix" id="li-comment-65660">
+	 <img alt='' src='http://1.gravatar.com/avatar/41a9da1c892779f3125cbe1a556a839e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/41a9da1c892779f3125cbe1a556a839e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65660">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>answerguy</strong> <span>August 15, 2013 at 2:39 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>yep there is.<br />
+Wrap the following code: </p>
+<p>s.recvfrom(2048)<br />
+in a while loop like this:</p>
+<p>while True:</p>
+<p>    while http_port is not 80:<br />
+        pack = s.recvfrom(2048)</p>
+<p>        tcpHeader = pack[0][34:54]<br />
+        tcp_hdr = struct.unpack(&#8220;!HH16s&#8221;, tcpHeader)<br />
+        http_port = tcp_hdr[0]<br />
+    function(pack[0][54:])                       #pass the data into a function</p>
+<p>it will check the port of every packet and will pass the data through to a function when a packet&#8217;s port is 80.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65660#respond' onclick='return addComment.moveForm( "comment-65660", "65660", "respond", "1018" )' aria-label='Reply to answerguy'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-51843">
+	 <img alt='' src='http://0.gravatar.com/avatar/f256678460c5afe31bdab98049fcde6f?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/f256678460c5afe31bdab98049fcde6f?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-51843">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>anon</strong> <span>August 28, 2012 at 9:22 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>@Jamie thx for your hint.<br />
+@Silver Moon great work works on win7 (as admin) to when I use socket.IPPROTO_IP instand of socket.IPPROTO_TCP</p>
+<p>for hexdump output:<br />
+<a target="_blank" href="http://code.activestate.com/recipes/142812/"  rel="nofollow">http://code.activestate.com/recipes/142812/</a></p>
+<p>so kindest regards you two made my day :-D</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=51843#respond' onclick='return addComment.moveForm( "comment-51843", "51843", "respond", "1018" )' aria-label='Reply to anon'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+   <li class="comment odd alt thread-even depth-1 clearfix" id="li-comment-32131">
+	 <img alt='' src='http://2.gravatar.com/avatar/bcaefc7fc889d6d9b17eb3db74505c37?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/bcaefc7fc889d6d9b17eb3db74505c37?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-32131">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>ain</strong> <span>April 10, 2012 at 12:24 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>hi sir..<br />
+it this source code available when running on window,<br />
+for your information, i want to create a packet sniffer program using python on windows platfrom..<br />
+and the worse thing is, i&#8217;m the beginner on python. </p>
+<p>i&#8217;ve tried ur better sniffer code but it keep give me this error.</p>
+<p>Traceback (most recent call last):<br />
+  File &#8220;C:\Python26\New folder\sniff.py&#8221;, line 6, in<br />
+    s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))<br />
+AttributeError: &#8216;module&#8217; object has no attribute &#8216;AF_PACKET&#8217;</p>
+<p>and i&#8217;m stuck. i don&#8217;t know what the solution..<br />
+pls help me out :(</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=32131#respond' onclick='return addComment.moveForm( "comment-32131", "32131", "respond", "1018" )' aria-label='Reply to ain'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment byuser comment-author-admin bypostauthor even depth-2 clearfix" id="li-comment-32133">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-32133">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong><a href="http://www.binarytides.com/"  rel='external nofollow' class='url'>Silver Moon</a></strong> <span>April 10, 2012 at 12:35 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>this code is only for Linux/Unix or similar operating systems.<br />
+It will not work on windows , since windows has very limited raw socket support.</p>
+<p>You can check this page :<br />
+<a target="_blank" href="http://docs.python.org/library/socket.html"  rel="nofollow">http://docs.python.org/library/socket.html</a></p>
+<p>It has &#8220;network sniffer with raw sockets on Windows&#8221; towards the bottom.</p>
+<p>However first brush up your python skills.</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=32133#respond' onclick='return addComment.moveForm( "comment-32133", "32133", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment odd alt depth-3 clearfix" id="li-comment-65732">
+	 <img alt='' src='http://0.gravatar.com/avatar/6ad55d6c054ea9cee04f2e9aeb66090e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/6ad55d6c054ea9cee04f2e9aeb66090e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-65732">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>xavier</strong> <span>September 28, 2013 at 5:40 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>hello,I have try the &#8220;network sniffer with raw sockets on Windows&#8221;.<br />
+And I only get outgoing packages,</p>
+<p>how can i get incoming packages on Windows?</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=65732#respond' onclick='return addComment.moveForm( "comment-65732", "65732", "respond", "1018" )' aria-label='Reply to xavier'>Reply</a>      </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+   <li class="comment even thread-odd thread-alt depth-1 clearfix" id="li-comment-31771">
+	 <img alt='' src='http://0.gravatar.com/avatar/650a323660ecb260e313e02566c3e68e?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/650a323660ecb260e313e02566c3e68e?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-31771">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Jamie</strong> <span>March 21, 2012 at 2:47 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thanks for this script.  I was looking for something to use in black box testing.  I am doing some work testing an embedded linux system which has python but we don&#8217;t have a compiler to build stuff like tcpdump that isn&#8217;t installed</p>
+<p>In the last, improved script there is a typo/slip at line 121, it should be </p>
+<p>data=packet[h_size:]</p>
+<p>Keep up the good work</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=31771#respond' onclick='return addComment.moveForm( "comment-31771", "31771", "respond", "1018" )' aria-label='Reply to Jamie'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment odd alt depth-2 clearfix" id="li-comment-55587">
+	 <img alt='' src='http://1.gravatar.com/avatar/1443a67b8c1b8ffd44cddad350ae6e2a?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://1.gravatar.com/avatar/1443a67b8c1b8ffd44cddad350ae6e2a?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-55587">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Mark</strong> <span>September 11, 2012 at 1:33 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>I agree. All data parsing lines seem to be:</p>
+<p>data = packet[data_size:]</p>
+<p>Shouldn&#8217;t they all be:</p>
+<p>data=packet[h_size:]</p>
+<p>?</p>
+<p>Mark</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=55587#respond' onclick='return addComment.moveForm( "comment-55587", "55587", "respond", "1018" )' aria-label='Reply to Mark'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment byuser comment-author-admin bypostauthor even depth-3 clearfix" id="li-comment-55588">
+	 <img alt='' src='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/e23f2767e6907e798da5b28694a2bf28?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-55588">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>Silver Moon</strong> <span>September 11, 2012 at 1:56 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>yes, it should be<br />
+data=packet[h_size:]</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=55588#respond' onclick='return addComment.moveForm( "comment-55588", "55588", "respond", "1018" )' aria-label='Reply to Silver Moon'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment odd alt depth-4 clearfix" id="li-comment-71163">
+	 <img alt='' src='http://0.gravatar.com/avatar/fe0a5e6cda646eaf8a7ede6d68e55dba?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://0.gravatar.com/avatar/fe0a5e6cda646eaf8a7ede6d68e55dba?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-71163">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>ayiis</strong> <span>March 21, 2016 at 3:21 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>one more thing that, the length of TCP data should be equal to </p>
+<p>iph[2] &#8211; iph_length &#8211; tcph_length*4</p>
+<p>i think you made a mistake here :P</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+         <a rel='nofollow' class='comment-reply-link' href='http://www.binarytides.com/python-packet-sniffer-code-linux/?replytocom=71163#respond' onclick='return addComment.moveForm( "comment-71163", "71163", "respond", "1018" )' aria-label='Reply to ayiis'>Reply</a>      </div>
+     </div>
+<ul class="children">
+   <li class="comment even depth-5 clearfix" id="li-comment-87719">
+	 <img alt='' src='http://2.gravatar.com/avatar/827989976fca29805d570e5d5610a3f9?s=38&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g' srcset='http://2.gravatar.com/avatar/827989976fca29805d570e5d5610a3f9?s=76&#038;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2F61a58ec1c1fba116f8424035089b7c71%3Fs%3D32%26d%3D%26r%3DG&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' />     <div id="comment-87719">
+	  <div class="comment-meta commentmetadata clearfix">
+	    <strong>bread</strong> <span>July 8, 2016 at 4:05 pm	  </span>
+	  </div>
+	  
+      <div class="text">
+		  <p>Thank you SilverMoon for your work!<br />
+And thank you, ayiis!</p>
+<p>I had a problem with empty TCP packets. This program said the TCP data size would be 6, while it was 0.<br />
+But I can&#8217;t find the problem, since<br />
+data_size = len(packet) &#8211; eth_length + iph_length + tcph_length * 4<br />
+should be equal to<br />
+data_size = iph[2] &#8211; iph_length &#8211; tcph_length * 4</p>
+	  </div>
+	  
+	  
+      <div class="reply">
+               </div>
+     </div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	</ul>
+<div style="height:30px;">
+<span style="float:left;">	
+ 
+</span>
+
+<span style="float:right;">	
+</span>
+</div>
+ 
+
+
+<div id="respond">
+
+<h2 id="commentsForm">Leave a comment</h2>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/python-packet-sniffer-code-linux/#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://www.binarytides.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><label for="author">Name (required)</label>
+<input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+</p>
+
+<p><label for="email">Mail (will not be published) (required)</label>
+<input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+</p>
+
+<p><label for="url">Website</label>
+<input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+</p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><label for="comment">Comment</label>
+<textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="POST COMMENT" />
+<input type='hidden' name='comment_post_ID' value='1018' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="220"/></p>
+</form>
+
+</div>
+
+			</div>
+			</div>
+
+		</div>
+				
+		</div>
+		<!-- End #colLeftInner -->
+		</div>
+		<!-- End #colLeft -->
+
+<!-- Begin #colRight -->
+<div id="colRight">
+	
+	<div id="adsense_search" class="rightBox">
+<div class="widget_content">
+<form action="http://www.binarytides.com/search" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-5814774904969415:4586881861" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+<table><tr><td>
+    <input type="text" name="q" size="55" /></td><td>
+    <input type="submit" name="sa" value="Search" /></td></tr></table>
+  </div>
+</form>
+<script data-cfasync="false" src="/cdn-cgi/scripts/d07b1474/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+
+</div></div>
+<!-- search box ends here -->
+<center>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- binarytides 300x250 sidebar -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-5814774904969415"
+     data-ad-slot="7101063767"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+<br /><center>
+<a target="_blank" href="http://feedburner.google.com/fb/a/mailverify?uri=binarytides&loc=en_US" style="display:block;"><img src="http://www.binarytides.com/free-linux-ebooks.png" /></a>
+</center>
+<br /><div class="rightBox"><span class="title">Connect with us</span><div class="widget_content"><ul class="lsi-social-icons icon-set-lsi_widget-2" style="text-align: left"><li class="lsi-social-facebook"><a class="tooltip" rel="nofollow" title="Facebook" aria-label="Facebook" href="https://www.facebook.com/binarytides" target="_blank"><i class="lsicon lsicon-facebook"></i></a></li><li class="lsi-social-twitter"><a class="tooltip" rel="nofollow" title="Twitter" aria-label="Twitter" href="https://twitter.com/binarytides" target="_blank"><i class="lsicon lsicon-twitter"></i></a></li><li class="lsi-social-gplus"><a class="tooltip" rel="nofollow" title="Google+" aria-label="Google+" href="https://plus.google.com/+binarytides" target="_blank"><i class="lsicon lsicon-gplus"></i></a></li><li class="lsi-social-rss"><a class="tooltip" rel="nofollow" title="RSS" aria-label="RSS" href="https://feedburner.google.com/fb/a/mailverify?uri=binarytides" target="_blank"><i class="lsicon lsicon-rss"></i></a></li></ul></div></div><div class="rightBox">
+<div class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div class="wp_rp_content"><span class="title">Other interesting stuff</span><div class="widget_content"><ul class="related_post wp_rp"><li data-position="0" data-poid="in-3102" data-post-type="none" ><a href="http://www.binarytides.com/python-syn-flood-program-raw-sockets-linux/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="Syn flood program in python using raw sockets (Linux)" width="150" height="150" /></a><a href="http://www.binarytides.com/python-syn-flood-program-raw-sockets-linux/" class="wp_rp_title">Syn flood program in python using raw sockets (Linux)</a></li><li data-position="1" data-poid="in-2919" data-post-type="none" ><a href="http://www.binarytides.com/code-a-packet-sniffer-in-python-with-pcapy-extension/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="Code a packet sniffer in python with pcapy extension" width="150" height="150" /></a><a href="http://www.binarytides.com/code-a-packet-sniffer-in-python-with-pcapy-extension/" class="wp_rp_title">Code a packet sniffer in python with pcapy extension</a></li><li data-position="2" data-poid="in-5578" data-post-type="none" ><a href="http://www.binarytides.com/python-socket-server-code-example/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/uploads/2013/08/python-150x150.png" alt="Code a simple socket server in Python" width="150" height="150" /></a><a href="http://www.binarytides.com/python-socket-server-code-example/" class="wp_rp_title">Code a simple socket server in Python</a></li><li data-position="3" data-poid="in-3119" data-post-type="none" ><a href="http://www.binarytides.com/raw-socket-programming-in-python-linux/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="Raw socket programming in python (Linux)" width="150" height="150" /></a><a href="http://www.binarytides.com/raw-socket-programming-in-python-linux/" class="wp_rp_title">Raw socket programming in python (Linux)</a></li><li data-position="4" data-poid="in-60" data-post-type="none" ><a href="http://www.binarytides.com/raw-sockets-c-code-linux/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Code raw sockets in C on Linux" width="150" height="150" /></a><a href="http://www.binarytides.com/raw-sockets-c-code-linux/" class="wp_rp_title">Code raw sockets in C on Linux</a></li><li data-position="5" data-poid="in-2204" data-post-type="none" ><a href="http://www.binarytides.com/python-socket-programming-tutorial/" class="wp_rp_thumbnail"><img src="http://www.binarytides.com/blog/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Python socket &#8211; network programming tutorial" width="150" height="150" /></a><a href="http://www.binarytides.com/python-socket-programming-tutorial/" class="wp_rp_title">Python socket &#8211; network programming tutorial</a></li></ul></div></div>
+</div></div><center>
+<!-- BEGIN IFRAME TAG - binarytides.com RON Global Display Rev Share < - DO NOT MODIFY -->
+<IFRAME SRC="http://ads.cpxinteractive.com/tt?id=2151978&size=300x250&referrer=binarytides.com" FRAMEBORDER="0" SCROLLING="no" MARGINHEIGHT="0" MARGINWIDTH="0" TOPMARGIN="0" LEFTMARGIN="0" ALLOWTRANSPARENCY="true" WIDTH="300" HEIGHT="250"></IFRAME>
+<!-- END TAG -->
+</center>
+</div>
+<!-- End #colRight -->	
+
+</div>
+<!-- end of colwrap -->
+
+</div>
+		<!-- end content -->
+	
+	</div>
+	<!-- end wrapper -->
+	<!-- begin footer -->
+	
+	<div id="footer">
+		<div id="copyrightInner">
+
+<div style="line-height:32px;">			
+
+<div id="footer_links">
+	<a href="/about">About us</a>
+	<a href="/contact">Contact us</a>
+	<a href="/faq">Faq</a>
+	<a href="/advertise">Advertise</a>
+	<a href="/privacy">Privacy Policy</a>
+<!--	<a href="/terms">Terms of Service</a>-->
+</div>
+
+Copyright &copy; 2018 BinaryTides
+
+</div>
+		
+
+		</div>
+
+
+
+	</div>
+	<!-- end footer -->
+
+	
+
+<!-- google analytics event tracking -->
+<script type="text/javascript">
+
+if(window.jQuery)
+{
+
+jQuery(document).ready(function() {
+
+jQuery('li.SPOSTARBUST-Related-Post a').click(function() 
+{ 
+	ga('send', 'event', 'clicks', 'related_posts_right', $(this).html(), {'nonInteraction': 1});
+});
+	
+//For adverts and offers, save the href/link
+jQuery('a.offer').click(function() 
+{ 
+//	_gaq.push(['_trackEvent', 'clicks', 'offer', $(this).attr('href') , 5, true]);
+});
+
+jQuery('.postBoxMidInner p img').closest('p').css('clear','both');
+
+
+// detect ad blocking
+if( jQuery('.adcontent').height() == 0 )
+{
+	// console.log('Sad. You have ad blocker enabled');
+	ga('send', 'event', 'adblocks', 'adblocks', 'adblocks', {'nonInteraction': 1});
+
+	// add some content to the empty ad area
+}
+});
+
+}
+
+</script>
+
+
+
+<!-- Quantcast Tag -->
+<script type="text/javascript">
+var _qevents = _qevents || [];
+
+(function() {
+var elem = document.createElement('script');
+elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+elem.async = true;
+elem.type = "text/javascript";
+var scpt = document.getElementsByTagName('script')[0];
+scpt.parentNode.insertBefore(elem, scpt);
+})();
+
+_qevents.push({
+qacct:"p-PydpEyknvJJzJ"
+});
+</script>
+
+<noscript>
+<div style="display:none;">
+<img src="//pixel.quantserve.com/pixel/p-PydpEyknvJJzJ.gif" border="0" height="1" width="1" alt="Quantcast"/>
+</div>
+</noscript>
+<!-- End Quantcast tag --><script type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9b'></script>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPython.js?ver=3.0.9b'></script>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.9b'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.binarytides.com/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.binarytides.com/blog/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<link rel='stylesheet' id='yarppRelatedCss-css'  href='http://www.binarytides.com/blog/wp-content/plugins/yet-another-related-posts-plugin/style/related.css?ver=4.9.2' type='text/css' media='all' />
+<link rel='stylesheet' id='lsi-style-css'  href='http://www.binarytides.com/blog/wp-content/plugins/lightweight-social-icons/css/style-min.css?ver=0.9' type='text/css' media='all' />
+<style id='lsi-style-inline-css' type='text/css'>
+
+			.icon-set-lsi_widget-2 a, 
+			.icon-set-lsi_widget-2 a:visited, 
+			.icon-set-lsi_widget-2 a:focus {
+				border-radius: 2px;
+				background: #1E72BD !important;
+				color: #FFFFFF !important;
+				font-size: 32px !important;
+			}
+			.icon-set-lsi_widget-2 a:hover {
+				background: #dd3333 !important;
+				color: #FFFFFF !important;
+			}
+</style>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-includes/js/wp-embed.min.js?ver=4.9.2'></script>
+<script async="async" type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/akismet/_inc/form.js?ver=4.0.1'></script>
+<script type='text/javascript' src='http://www.binarytides.com/blog/wp-content/plugins/lightweight-social-icons/js/jquery.tooltipster.min.js?ver=0.9'></script>
+</body>
+</html>
+<!-- *´¨)
+     ¸.•´¸.•*´¨) ¸.•*¨)
+     (¸.•´ (¸.•` ¤ Comet Cache is Fully Functional ¤ ´¨) -->
+
+<!-- Cache File Version Salt:       n/a -->
+
+<!-- Cache File URL:                http://www.binarytides.com/python-packet-sniffer-code-linux/ -->
+<!-- Cache File Path:               /cache/comet-cache/cache/http/www-binarytides-com/python-packet-sniffer-code-linux.html -->
+
+<!-- Cache File Generated Via:      HTTP request -->
+<!-- Cache File Generated On:       Jan 23rd, 2018 @ 11:27 pm UTC -->
+<!-- Cache File Generated In:       0.46879 seconds -->
+
+<!-- Cache File Expires On:         Jan 30th, 2018 @ 11:27 pm UTC -->
+<!-- Cache File Auto-Rebuild On:    Jan 30th, 2018 @ 11:27 pm UTC -->
+
+<!-- Loaded via Cache On:    Jan 25th, 2018 @ 5:16 am UTC -->
+<!-- Loaded via Cache In:    0.02365 seconds -->
