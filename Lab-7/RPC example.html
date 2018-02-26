@@ -1,0 +1,95 @@
+<BODY>
+<TITLE>RPC example</TITLE>
+<BG COLOR=#FFFFFF>
+
+/* date.x - Specification of remote date and time service <Br>
+bindate() which returns the binary time and date (no args).<Br>
+This file is the input to rpcgen */<Br>
+
+program DATEPROG {		/* remote program name (not used)*/<Br>
+	version DATEVERS {     /* declaration of program version<Br>
+					number*/<Br>
+	long BINDATE(void) = 1;  /* procedure number = 1 */<Br>
+	} = 1;			  /* definition of program version = <Br>
+							1*/<Br>
+} = 0x3012225;			  /* remote program number (must be<Br>
+						unique)*/<Br>
+
+/****************************************************************/<Br>
+
+/* rdate.c - client program for remote date service */<Br>
+#include stdio.h<Br>
+#include rpc/rpc.h<Br>
+#include stdlib.h<Br>
+#include "date.h"<Br>
+
+int main(int argc, char *argv[]) {<br>
+  CLIENT *cl;<Br>
+  char *server;<Br>
+  long  *lres;<Br>
+  
+  if (argc != 2) {<Br>
+ 	fprintf(stderr, "usage: %s hostname\n", argv[0]);<Br>
+    	exit(1);<Br>
+  }<Br>
+  server = argv[1];<Br>
+  /* create client handle */
+<Br>
+ if ((cl = clnt_create(server, DATEPROG, DATEVERS, "udp")) == NULL) {<Br>
+  /* couldn't establish connection with server */<Br>
+  printf("can't establish connection with host %s\n", server);<Br>
+  exit(2);<Br>
+ }<Br>
+
+/* first call the remote procedure bindate() */<Br>
+ if (( lres = bindate_1(NULL, cl)) == NULL){<Br>
+       printf(" remote procedure bindate() failure\n");<Br>
+       exit(3);<Br>
+ }<Br>
+
+ printf("time on host %s = %ld\n", server, *lres);<Br>
+
+
+clnt_destroy(cl); /* done with handle */<Br>
+return 0;<Br>
+}<Br>
+
+
+
+/*********************************************************************/<Br>
+<BODY>
+<BG COLOR = 0xFFFFFF>
+/* dateproc.c - remote procedures; called by server stub */<Br>
+
+#include stdio.h<Br>
+#include stdlib.h<Br>
+#include rpc/rpc.h<Br>
+#include "date.h"<Br>
+
+/* return the binary date and time */<Br>
+
+
+/* In Linux: 
+   long * bindate_1_svc(void* arg1, struct svc_req *arg2) {<Br>
+*/ <Br>
+<Br>
+/* In Dec Unix:
+long * bindate_1() {<Br>
+*/<Br>
+<Br>
+long * bindate_1() {<Br>
+   static long timeval;  /* must be static */<Br>
+   timeval = time((long *) 0);<Br>
+   return (&timeval);<Br>
+ }<Br>
+</BODY>
+
+****************************************************<Br>
+Commands:<Br>
+rpcgen date.x<Br>
+gcc -c date_clnt.c<Br>
+gcc -c date_svc.c<Br>
+gcc -c dateproc.c<Br>
+gcc -c rdate.c<Br>
+gcc -o client date_clnt.o rdate.o<Br>
+gcc -o server  date_svc.o   dateproc.o<Br>
