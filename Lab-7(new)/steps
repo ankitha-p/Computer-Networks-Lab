@@ -1,0 +1,12 @@
+1. First create rpcgen by doing the following
+	rpcgen date.x
+ This generates date_clnt.c(client stub), date_svc.c(server stub), date.h(header file).
+2. Compile the server program
+	gcc -o server server.c date_svc.c
+3. Compile the client program in a new terminal
+	gcc -o client client.c 
+4. Execute server
+	./server
+5. Execute client by also specifying Server's IP in the command line
+	./client 172.20.0.161
+
