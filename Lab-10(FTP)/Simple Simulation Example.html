@@ -1,0 +1,202 @@
+<html>
+<head>
+<title>Simple Simulation Example</title>
+</head>
+
+<body background="Icons/parchment.gif" text="#000000" link="#0000FF"
+vlink="#000080" alink="#FF0000">
+
+<br>
+<center><h2>Simple Simulation Example</h2></center>
+<br><br>
+
+<dl>
+
+<p>This section shows a simple NS simulation script and explains what each line does. Example 3 is an OTcl script that creates the simple network configuration and runs the simulation scenario in Figure 4. To run this simulation, download "<a href="Example/ns-simple.tcl">ns-simple.tcl</a>" and type "<font color=GREEN>ns ns-simple.tcl</font>" at your shell prompt.</p>
+
+<a name="fig4"></a>
+<p align="center"><img src="Figure/fig4.gif" border=1><br><br>
+<b>Figure 4.</b> A Simple Network Topology and Simulation Scenario</p>
+
+<p>This network consists of 4 nodes (n0, n1, n2, n3) as shown in above
+figure. The duplex links between n0 and n2, and n1 and n2 have 2 Mbps
+of bandwidth and 10 ms of delay. The duplex link between n2 and n3 has
+1.7 Mbps of bandwidth and 20 ms of delay. Each node uses a DropTail
+queue, of which the maximum size is 10. A "tcp" agent is attached to
+n0, and a connection is established to a tcp "sink" agent attached to
+n3. As default, the maximum size of a packet that a "tcp" agent can
+generate is 1KByte. A tcp "sink" agent generates and sends ACK packets
+to the sender (tcp agent) and frees the received packets. A "udp"
+agent that is attached to n1 is connected to a "null" agent attached
+to n3. A "null" agent just frees the packets received. A "ftp" and a
+"cbr" traffic generator are attached to "tcp" and "udp" agents
+respectively, and the "cbr" is configured to generate 1 KByte packets
+at the rate of 1 Mbps. The "cbr" is set to start at 0.1 sec and stop
+at 4.5 sec, and "ftp" is set to start at 1.0 sec and stop at 4.0
+sec.</p>
+
+<p align="center">
+<a href="Example/ns-simple.tcl"><img src="Figure/ex3.gif" 
+   border=1 alt="ns-simple.tcl"></a><br><br>
+<b>Example 3.</b> A Simple NS Simulation Script
+</p>
+</dl>
+
+<p>The following is the explanation of the script above. In general,
+an NS script starts with making a Simulator object instance.</p>
+
+<ul>
+<li><font color=GREEN>set <i>ns</i> [new Simulator]</font>: generates
+an NS simulator object instance, and assigns it to variable <i>ns</i>
+(italics is used for variables and values in this section). What this
+line does is the following:<br>&nbsp;</li>
+   <ul>
+      <li>Initialize the packet format (ignore this for now)</li>
+      <li>Create a scheduler (default is calendar scheduler)</li>
+      <li>Select the default address format (ignore this for
+          now)<br>&nbsp;</li>
+   </ul>
+The "Simulator" object has member functions that do the following:<br>&nbsp;
+   <ul>
+      <li>Create compound objects such as nodes and links (described
+          later)</li>
+      <li>Connect network component objects created (ex. attach-agent)</li>
+      <li>Set network component parameters (mostly for compound objects)</li>
+      <li>Create connections between agents (ex. make connection
+          between a "tcp" and "sink")</li>
+      <li>Specify NAM display options</li>
+      <li>Etc.<br>&nbsp;</li>
+   </ul>
+Most of member functions are for simulation setup (referred to as
+plumbing functions in the Overview section) and scheduling, however
+some of them are for the NAM display. The "Simulator" object member
+function implementations are located in the "<font
+color=RED>ns-2/tcl/lib/ns-lib.tcl</font>" file.<br>&nbsp;
+
+<li><font color=GREEN><i>$ns</i> color <i>fid color</i></font>: is to
+set color of the packets for a flow specified by the flow id
+(fid). This member function of "Simulator" object is for the NAM
+display, and has no effect on the actual simulation. <br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> namtrace-all
+<i>file-descriptor</i></font>: This member function tells the
+simulator to record simulation traces in NAM input format. It also
+gives the file name that the trace will be written to later by the
+command <font color=GREEN><i>$ns</i> flush-trace</font>. Similarly,
+the member function <font color=GREEN>trace-all</font> is for
+recording the simulation trace in a general format.<br>&nbsp;</li>
+
+<li><font color=GREEN>proc <i>finish</i> {}</font>: is called after
+this simulation is over by the command <font color=GREEN><i>$ns</i> at
+5.0 "<i>finish</i>"</font>. In this function, post-simulation
+processes are specified.<br>&nbsp;</li>
+
+<li><font color=GREEN>set <i>n0</i> [<i>$ns</i> node]</font>: The
+member function <font color=GREEN>node</font> creates a node. A node
+in NS is compound object made of address and port classifiers
+(described in a later section). Users can create a node by separately
+creating an address and a port classifier objects and connecting them
+together. However, this member function of Simulator object makes the
+job easier. To see how a node is created, look at the files: "<font
+color=RED>ns-2/tcl/libs/ns-lib.tcl</font>" and "<font
+color=RED>ns-2/tcl/libs/ns-node.tcl</font>".<br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> duplex-link <i>node1 node2 bandwidth
+delay queue-type</i></font>: creates two simplex links of specified
+bandwidth and delay, and connects the two specified nodes. In NS, the
+output queue of a node is implemented as a part of a link, therefore
+users should specify the queue-type when creating links. In the above
+simulation script, DropTail queue is used. If the reader wants to use
+a RED queue, simply replace the word DropTail with RED. The NS
+implementation of a link is shown in a later section. Like a node, a
+link is a compound object, and users can create its sub-objects and
+connect them and the nodes. Link source codes can be found in "<font
+color=RED>ns-2/tcl/libs/ns-lib.tcl</font>" and "<font
+color=RED>ns-2/tcl/libs/ns-link.tcl</font>" files. One thing to note
+is that you can insert error modules in a link component to simulate a
+lossy link (actually users can make and insert any network
+objects). Refer to the NS documentation to find out how to do
+this.<br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> queue-limit <i>node1 node2
+number</i></font>: This line sets the queue limit of the two simplex
+links that connect node1 and node2 to the number specified. At this
+point, the authors do not know how many of these kinds of member
+functions of Simulator objects are available and what they are. Please
+take a look at "<font color=RED>ns-2/tcl/libs/ns-lib.tcl</font>" and
+"<font color=RED>ns-2/tcl/libs/ns-link.tcl</font>", or NS
+documentation for more information.<br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> duplex-link-op <i>node1 node2
+...</i></font>: The next couple of lines are used for the NAM
+display. To see the effects of these lines, users can comment these
+lines out and try the simulation.</li>
+</ul>
+
+<p>Now that the basic network setup is done, the next thing to do is
+to setup traffic agents such as TCP and UDP, traffic sources such as
+FTP and CBR, and attach them to nodes and agents respectively.</p>
+
+<ul>
+<li><font color=GREEN>set <i>tcp</i> [new <i>Agent/TCP</i>]</font>:
+This line shows how to create a TCP agent. But in general, users can
+create any agent or traffic sources in this way. Agents and traffic
+sources are in fact basic objects (not compound objects), mostly
+implemented in C++ and linked to OTcl. Therefore, there are no
+specific Simulator object member functions that create these object
+instances. To create agents or traffic sources, a user should know the
+class names these objects (Agent/TCP, Agnet/TCPSink, Application/FTP
+and so on). This information can be found in the NS documentation or
+partly in this documentation. But one shortcut is to look at the
+"<font color=RED>ns-2/tcl/libs/ns-default.tcl</font>" file. This file
+contains the default configurable parameter value settings for
+available network objects. Therefore, it works as a good indicator of
+what kind of network objects are available in NS and what are the
+configurable parameters.<br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> attach-agent <i>node
+agent</i></font>: The <font color=GREEN>attach-agent</font> member
+function attaches an agent object created to a node object. Actually,
+what this function does is call the <font color=GREEN>attach</font>
+member function of specified node, which attaches the given agent to
+itself. Therefore, a user can do the same thing by, for example, <font
+color=GREEN>$n0 attach $tcp</font>. Similarly, each agent object has a
+member function <font color=GREEN>attach-agent</font> that attaches a
+traffic source object to itself.<br>&nbsp;</li>
+
+<li><font color=GREEN><i>$ns</i> connect <i>agent1 agent2</i></font>:
+After two agents that will communicate with each other are created,
+the next thing is to establish a logical network connection between
+them. This line establishes a network connection by setting the
+destination address to each others' network and port address
+pair.</li>
+</ul>
+
+<p>Assuming that all the network configuration is done, the next thing
+to do is write a simulation scenario (i.e. simulation scheduling). The
+Simulator object has many scheduling member functions. However, the
+one that is mostly used is the following:</p>
+
+<ul>
+<li><font color=GREEN><i>$ns</i> at <i>time "string"</i></font>: This
+member function of a Simulator object makes the scheduler (scheduler_
+is the variable that points the scheduler object created by [new
+Scheduler] command at the beginning of the script) to schedule the
+execution of the specified string at given simulation time. For
+example, <font color=GREEN><i>$ns</i> at <i>0.1 "$cbr
+start"</i></font> will make the scheduler call a <font
+color=GREEN>start</font> member function of the CBR traffic source
+object, which starts the CBR to transmit data. In NS, usually a
+traffic source does not transmit actual data, but it notifies the
+underlying agent that it has some amount of data to transmit, and the
+agent, just knowing how much of the data to transfer, creates packets
+and sends them.</li>
+</ul>
+
+<p>After all network configuration, scheduling and post-simulation
+procedure specifications are done, the only thing left is to run the
+simulation. This is done by <font color=GREEN><i>$ns</i>
+run</font>.<p>
+
+</body>
+</html>

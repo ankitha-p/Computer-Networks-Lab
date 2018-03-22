@@ -1,0 +1,17 @@
+a.out
+client.c
+client.c~
+eserv
+ftp-client.py
+FTP.docx
+ftp.pdf
+ftp-server.py
+ns-simple.tcl
+packet.c
+packet.c1
+ping.pdf
+server.c
+server.c~
+Simple Simulation Example.html
+temps.txt
+temp.txt
